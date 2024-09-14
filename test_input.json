@@ -6,8 +6,8 @@
           "seed": 234234,
           "steps": 20,
           "cfg": 8,
-          "sampler_name": "euler",
-          "scheduler": "normal",
+          "sampler_name": "lcm",
+          "scheduler": "simple",
           "denoise": 1,
           "model": ["4", 0],
           "positive": ["6", 0],
@@ -18,7 +18,7 @@
       },
       "4": {
         "inputs": {
-          "ckpt_name": "sd_xl_base_1.0.safetensors"
+          "ckpt_name": "DreamShaper8_LCM.safetensors"
         },
         "class_type": "CheckpointLoaderSimple"
       },
