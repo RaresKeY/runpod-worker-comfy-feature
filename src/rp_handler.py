@@ -218,7 +218,7 @@ def process_output_images(outputs, job_id):
     COMFY_OUTPUT_PATH = os.environ.get("COMFY_OUTPUT_PATH", "/comfyui/output")
 
     # To store all the images (either URLs or base64 encoded strings)
-    image_results = []
+    output_images = []
 
     # Iterate through each output node and its respective images
     for node_id, node_output in outputs.items():
@@ -232,20 +232,20 @@ def process_output_images(outputs, job_id):
                     if os.environ.get("BUCKET_ENDPOINT_URL", False):
                         # Upload image to AWS S3 and get the URL
                         image_url = rp_upload.upload_image(job_id, local_image_path)
-                        image_results.append(image_url)
+                        output_images.append(image_url)
                         print(f"runpod-worker-comfy - Uploaded image {image['filename']} to S3")
                     else:
                         # Convert image to base64
                         base64_image = base64_encode(local_image_path)
-                        image_results.append(base64_image)
+                        output_images.append(base64_image)
                         print(f"runpod-worker-comfy - Converted image {image['filename']} to base64")
                 else:
                     print(f"runpod-worker-comfy - Image {image['filename']} does not exist in output folder")
 
-    if image_results:
+    if output_images:
         return {
             "status": "success",
-            "images": image_results
+            "images": output_images
         }
     else:
         print("runpod-worker-comfy - the image does not exist in the output folder")
